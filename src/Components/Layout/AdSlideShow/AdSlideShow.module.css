@@ -1,0 +1,27 @@
+.ad-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ad-container img {
+  height: 15rem;
+  width: 25rem;
+  object-fit: contain;
+}
+
+.ad-container:hover {
+  opacity: 0.6;
+  border-radius: 25px;
+}
+
+.ad-text {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  bottom: 0;
+  padding: 10px 0 10px calc(12.5rem - 22px);
+  font-size: 1.2rem;
+  font-weight: bolder;
+  color: #fff;
+  background: linear-gradient(to right, #000, #000, #000);
+}

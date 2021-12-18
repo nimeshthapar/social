@@ -1,0 +1,8 @@
+.layout {
+  display: flex;
+}
+
+.centerbox {
+  height: calc(100vh - 70px);
+  flex: 6;
+}

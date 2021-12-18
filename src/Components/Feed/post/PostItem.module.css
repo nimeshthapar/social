@@ -1,0 +1,165 @@
+.img-container {
+  display: flex;
+  align-items: center;
+}
+
+.img-container img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 2px 2px 8px rgb(0, 0, 0, 0.4);
+  margin-left: 20px;
+}
+
+.img-container__info {
+  display: flex;
+}
+
+.img-container h3 {
+  margin-left: 20px;
+  padding: 0;
+  width: 200px;
+  color: rgb(110, 125, 255);
+}
+
+.time-and-location__info {
+  width: 100%;
+  position: relative;
+  top: -15px;
+  left: 5px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.time-and-location__info p {
+  display: flex;
+  justify-content: space-evenly;
+  color: rgb(73, 73, 73);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* .time-and-location__info p:first-of-type {
+  position: absolute;
+  top: -35px;
+  left: 90px;
+}
+
+.time-and-location__info p:last-of-type {
+  position: absolute;
+  top: -35px;
+  right: 30px;
+} */
+
+.time-and-location__info svg {
+  font-size: 0.8rem;
+  margin-right: 5px;
+  position: relative;
+  top: 5px;
+}
+
+.time-and-location__info + hr,
+.post-caption-and-data__info + hr {
+  width: 80%;
+  margin: 25px auto;
+  color: rgb(73, 73, 73);
+}
+
+.post-caption-and-data__info p {
+  margin: 15px 25px;
+}
+
+.post-img__container {
+  text-align: center;
+  width: 100%;
+}
+.post-img__container img {
+  width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 20px;
+}
+
+.post-actions button {
+  margin-left: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  display: inline-flex;
+  align-items: center;
+  background: white;
+}
+
+.post-actions__like,
+.post-actions__comment {
+  position: relative;
+}
+
+.post-actions__like button:hover,
+.post-actions__like button:active,
+.post-actions__like button.active {
+  color: rgb(110, 125, 255);
+}
+
+.post-actions svg {
+  margin-right: 3px;
+}
+
+.post-actions span {
+  font-size: 1.2rem;
+  position: absolute;
+  top: -1.5px;
+  left: -5px;
+  cursor: pointer;
+}
+
+.post-actions__like span.active {
+  color: rgb(110, 125, 255);
+}
+
+.post-actions__comment button:hover,
+.post-actions__comment button:active,
+.post-actions__comment button.active {
+  color: rgb(109, 211, 88);
+}
+
+.post-actions__delete button:hover {
+  color: red;
+}
+
+.post-actions__edit button:hover {
+  color: goldenrod;
+}
+
+.post-actions__comment span.active {
+  color: rgb(109, 211, 88);
+}
+
+.post-actions__like span.bump {
+  animation: bump 300ms ease-in forwards;
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.2);
+  }
+
+  60% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

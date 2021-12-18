@@ -1,0 +1,102 @@
+.left-sidebar {
+  height: calc(100vh - 102px);
+  flex: 3;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-right: 1px solid rgba(73, 73, 73, 0.808);
+}
+
+.left-sidebar a {
+  text-decoration: none;
+}
+
+.left-sidebar hr {
+  width: 50%;
+  color: rgb(224, 224, 224);
+}
+
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(110, 125, 255);
+}
+
+.information:hover {
+  background: rgb(224, 224, 224);
+}
+
+.information svg {
+  color: rgb(141, 141, 141);
+  margin: 0 0.8rem 0 0.5rem;
+  font-size: 2rem;
+}
+
+.information p {
+  font-size: 1.2rem;
+  font-weight: bolder;
+  align-self: start;
+}
+.active-status {
+  background-color: chartreuse;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.sidebar-options {
+  list-style: none;
+  max-height: 271px;
+  overflow-y: auto;
+  padding: 0;
+}
+.sidebar-options li {
+  padding: 1rem 0;
+  position: relative;
+}
+
+.sidebar-options svg {
+  font-size: 1.8rem;
+  position: absolute;
+  left: 25px;
+  color: rgb(110, 125, 255);
+}
+
+.sidebar-options li:hover {
+  background: rgb(224, 224, 224);
+}
+
+.sidebar-options p {
+  margin-left: 5rem;
+  display: inline;
+  font-size: 1.2rem;
+  color: rgb(73, 73, 73);
+}
+
+.options-action {
+  text-align: center;
+}
+
+.options-action span {
+  position: relative;
+}
+
+.options-action svg {
+  position: absolute;
+  left: -25px;
+  top: -5px;
+}
+
+.friends-list span {
+  margin-left: 2.5rem;
+  font-size: 1.2rem;
+  color: rgba(73, 73, 73, 0.808);
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+@media (max-width: 40rem) {
+  .left-sidebar {
+    display: none;
+  }
+}

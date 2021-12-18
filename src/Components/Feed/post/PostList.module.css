@@ -1,0 +1,8 @@
+.post-list__items {
+  list-style: none;
+  padding: 0 0 12px 0;
+  max-height: calc(100vh - 270px);
+  width: 100%;
+  overflow-y: auto;
+  margin: 0;
+}

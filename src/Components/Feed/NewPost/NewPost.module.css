@@ -1,0 +1,102 @@
+.form-items__container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-flow: column;
+  padding: 2rem;
+}
+
+.form-items__input-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-flow: column;
+}
+
+.form-items__input-container {
+  width: 100%;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.form-items__input-container label {
+  align-self: flex-start;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: rgb(110, 125, 255);
+  margin: 5px;
+}
+
+.form-items__input-container textarea,
+.form-items__input-container input,
+.form-items__input-container select {
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid rgb(230, 230, 230);
+}
+
+.form-items__input-container textarea:focus,
+.form-items__input-container input:focus,
+.form-items__input-container select:focus {
+  outline: 1px solid rgb(110, 125, 255);
+}
+
+.form-items__input-container select {
+  cursor: pointer;
+}
+
+.form-items__input-container option {
+  font-size: 1rem;
+  color: rgb(73, 73, 73);
+}
+
+.actions {
+  padding: 20px 10px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.actions button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: #fff;
+  height: 50px;
+  border-radius: 12px;
+}
+
+.actions button:hover {
+  background: rgb(230, 230, 230);
+}
+
+.actions span {
+  padding-left: 1rem;
+  color: rgb(202, 34, 34);
+  font-size: 0.9rem;
+  font-weight: bolder;
+}
+
+.actions svg {
+  color: rgb(202, 34, 34);
+}
+
+.close-btn {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.8rem;
+  border: none;
+  background: white;
+  font-size: 0.8rem;
+  color: rgb(202, 34, 34);
+  font-weight: bolder;
+}
+
+.close-btn:hover {
+  color: rgb(200, 200, 200);
+}

@@ -1,0 +1,79 @@
+.share-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem;
+}
+
+.img-container {
+  flex: 1;
+  text-align: center;
+  margin: 5px 0;
+}
+
+.img-container img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 2px 2px 8px rgb(0, 0, 0, 0.4);
+}
+
+.input-container {
+  flex: 6;
+  padding-left: 10px;
+}
+
+.input-container textarea {
+  width: 100%;
+  border: none;
+  font-size: 1rem;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.4);
+}
+
+.input-container textarea:focus {
+  outline: none;
+}
+
+.share-actions {
+  padding: 0 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.share-actions button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  border-radius: 12px;
+}
+
+.share-actions__action {
+  border: none;
+  background: #fff;
+  cursor: pointer;
+}
+
+.share-actions__action:hover {
+  background: rgb(230, 230, 230);
+}
+
+.share-actions__action span {
+  padding-left: 1rem;
+  color: rgb(202, 34, 34);
+  font-size: 0.9rem;
+  font-weight: bolder;
+}
+
+.share-actions__action svg {
+  color: rgb(202, 34, 34);
+}
+
+.ui-button span {
+  padding-left: 1rem;
+  font-size: 0.9rem;
+  font-weight: bolder;
+}

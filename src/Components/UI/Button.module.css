@@ -1,0 +1,61 @@
+.button {
+  border-radius: 12px;
+  padding: 0.5rem;
+  background-color: rgb(110, 125, 255);
+  cursor: pointer;
+  border: 1px solid rgb(110, 125, 255);
+  color: white;
+  height: 50px;
+  width: 150px;
+}
+
+.link {
+  text-align: center;
+  display: block;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 0.5rem;
+  background-color: rgb(110, 125, 255);
+  cursor: pointer;
+  border: 1px solid rgb(110, 125, 255);
+  color: white;
+  height: 50px;
+  width: 150px;
+}
+
+.button:hover {
+  background-color: white;
+  color: rgb(110, 125, 255);
+}
+
+.button:disabled {
+  background-color: rgb(212, 212, 212);
+  color: rgb(85, 85, 85);
+}
+
+.inverse {
+  background-color: white;
+  color: rgb(110, 125, 255);
+}
+
+.link:hover,
+.link:active {
+  background-color: white;
+  color: rgb(110, 125, 255);
+}
+
+.inverse:hover {
+  background-color: rgb(110, 125, 255);
+  color: white;
+}
+
+.danger {
+  background-color: rgb(182, 42, 42);
+  color: white;
+  border: 1px solid rgb(182, 42, 42);
+}
+
+.danger:hover {
+  color: rgb(182, 42, 42);
+  background-color: white;
+}

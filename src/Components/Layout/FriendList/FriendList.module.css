@@ -1,0 +1,12 @@
+.friend-list__items {
+  list-style: none;
+  padding: 0;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.empty-list {
+  font-size: 2rem;
+  text-align: center;
+  color: rgb(73, 73, 73);
+}
