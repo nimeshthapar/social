@@ -24,17 +24,13 @@
 }
 
 .time-and-location__info {
+  padding: 0 100px;
   width: 100%;
-  position: relative;
-  top: -15px;
-  left: 5px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
 }
 .time-and-location__info p {
-  display: flex;
-  justify-content: space-evenly;
   color: rgb(73, 73, 73);
   font-size: 1rem;
   margin: 0;
@@ -42,13 +38,11 @@
 
 /* .time-and-location__info p:first-of-type {
   position: absolute;
-  top: -35px;
   left: 90px;
 }
 
 .time-and-location__info p:last-of-type {
   position: absolute;
-  top: -35px;
   right: 30px;
 } */
 
@@ -56,7 +50,6 @@
   font-size: 0.8rem;
   margin-right: 5px;
   position: relative;
-  top: 5px;
 }
 
 .time-and-location__info + hr,
@@ -116,7 +109,7 @@
   font-size: 1.2rem;
   position: absolute;
   top: -1.5px;
-  left: -5px;
+  left: -2.5px;
   cursor: pointer;
 }
 
@@ -146,6 +139,12 @@
   animation: bump 300ms ease-in forwards;
 }
 
+.delete-text {
+  text-align: center;
+  margin: 0;
+  color: rgb(247, 73, 73);
+}
+
 @keyframes bump {
   0% {
     transform: scale(1);
@@ -161,5 +160,33 @@
 
   100% {
     transform: scale(1);
+  }
+}
+
+@media (max-width: 40rem) {
+  .time-and-location__info {
+    padding: 0 30px;
+  }
+
+  .time-and-location__info p {
+    font-size: 0.8rem;
+  }
+
+  .time-and-location__info svg {
+    font-size: 0.6rem;
+  }
+
+  .post-actions button {
+    font-size: 0.8rem;
+  }
+  .post-actions span {
+    position: absolute;
+    top: -1px;
+    left: 8px;
+    font-size: 1rem;
+  }
+
+  .post-actions svg {
+    margin-right: 0;
   }
 }

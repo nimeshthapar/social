@@ -1,0 +1,27 @@
+.form-container {
+  /* height: calc(100vh - 70px); */
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container h1 {
+  text-align: center;
+  color: rgb(110, 155, 255);
+  margin: 0;
+}
+
+.form-actions {
+  padding: 10px;
+  text-align: center;
+}
+
+.form-actions p {
+  color: rgb(90, 90, 90);
+  cursor: pointer;
+}
+
+.form-actions p:hover {
+  color: rgb(110, 155, 255);
+}

@@ -1,0 +1,12 @@
+.comments {
+  list-style: none;
+  padding: 15px;
+  overflow: auto;
+  max-height: 240px;
+}
+
+.comment__error-text {
+  text-align: center;
+  font-size: 1.2rem;
+  color: rgb(90, 90, 90);
+}

@@ -1,0 +1,38 @@
+.msg-list__item {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-flow: column;
+}
+
+.msg-list__item-container {
+  background-color: rgb(230, 230, 230);
+  color: black;
+  width: 45%;
+  border-radius: 10px;
+  margin: 10px 5px;
+}
+
+.own {
+  background-color: rgb(110, 155, 255);
+  color: white;
+  align-self: flex-end;
+}
+
+.msg-list__item-container p {
+  padding-left: 15px;
+}
+
+.msg-list__item-container h4 {
+  color: rgb(110, 155, 255);
+  padding-left: 10px;
+  margin-bottom: 3px;
+}
+
+.own h4 {
+  display: none;
+}
+
+.own {
+  padding-right: 10px;
+}

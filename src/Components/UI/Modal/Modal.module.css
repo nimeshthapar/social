@@ -16,6 +16,7 @@
 }
 
 .modal-content {
+  box-shadow: 5px 5px 10px rgb(0, 0, 0, 0.5);
   width: 45vw;
   background: white;
   border-radius: 12px;
@@ -48,7 +49,7 @@
 }
 
 .footer button {
-  margin: 0 12px 20px 0;
+  margin: 0 12px 20px;
 }
 
 @keyframes slideDown {
@@ -66,5 +67,25 @@
 
   100% {
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 40rem) {
+  .modal {
+    left: 10%;
+  }
+  .overlay {
+    top: 30vh;
+    left: 2rem;
+  }
+  .overlay .modal-content {
+    width: 80vw;
+  }
+  .modal-content {
+    width: 80vw;
+  }
+
+  .footer button {
+    width: 70px;
   }
 }

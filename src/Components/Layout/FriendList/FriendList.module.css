@@ -1,7 +1,7 @@
 .friend-list__items {
   list-style: none;
   padding: 0;
-  max-height: 180px;
+  max-height: 195px;
   overflow-y: auto;
 }
 

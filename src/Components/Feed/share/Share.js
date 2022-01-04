@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useContext, useRef, useState } from 'react';
 
 import Card from '../../UI/Card';
 import Button from '../../UI/Button';
@@ -10,10 +10,13 @@ import classes from './Share.module.css';
 import NewPost from '../NewPost/NewPost';
 import useFocusNamedInputButton from '../../../hooks/FocusNamedInputButton';
 import ErrorModal from '../../UI/ErrorModal/ErrorModal';
+import { AuthContext } from '../../../store/auth-context';
 
 const Share = (props) => {
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
   const [showErrorPromptModal, setErrorPromptModal] = useState(false);
+
+  const authCtx = useContext(AuthContext);
 
   const {
     buttonIsClicked: photoIsClicked,
@@ -55,8 +58,13 @@ const Share = (props) => {
     setErrorPromptModal(false);
   };
 
+  const createModalCloseHanler = () => {
+    setShowCreatePostModal(false);
+  };
+
   const submitCaptionHandler = (e) => {
     e.preventDefault();
+
     openNewPostShareBtnHandler(setShowCreatePostModal, true);
   };
 
@@ -79,29 +87,25 @@ const Share = (props) => {
           locationIsClick={locationIsClicked}
           feelingIsClick={feelingIsClicked}
           shareIsClick={shareIsClicked}
+          closeModal={createModalCloseHanler}
+          id={authCtx.userData.id}
+          token={authCtx.token}
         />
       )}
       <Card>
         <div className={classes['share-container']}>
           <div className={classes['img-container']}>
             <img
-              src={
-                'https://animesher.com/orig/1/117/1178/11781/animesher.com_shonen-hinata-shouyou-manga-1178122.jpg'
-              }
-              alt="profile_pic"
+              src={`${process.env.REACT_APP_ASSET_URL}/${authCtx.userData.image}`}
+              alt={authCtx.userData.name}
             />
           </div>
           <form onSubmit={submitCaptionHandler}>
             <div className={classes['input-container']}>
               <textarea
                 rows="3"
-                placeholder={`What's on your mind ${'Admin'}?`}
+                placeholder={`What's on your mind, ${authCtx.userData.name}?`}
                 ref={captionRef}
-              />
-              <input
-                type="file"
-                style={{ display: 'none' }}
-                accept=".jpg,.jpeg,.png,.mp4,.gif"
               />
             </div>
             <div className={classes['share-actions']}>
@@ -115,7 +119,7 @@ const Share = (props) => {
                 )}
               >
                 <PermMediaIcon style={{ color: 'green' }} />
-                <span style={{ color: 'green' }}>Photo or Video</span>
+                <span style={{ color: 'green' }}>Photo</span>
               </button>
               <button
                 type="button"

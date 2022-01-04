@@ -1,0 +1,49 @@
+.header {
+  background-color: rgb(110, 125, 255);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 70px;
+  position: sticky;
+}
+
+.logo {
+  margin-left: 2rem;
+  font-weight: bolder;
+  font-size: 2.25rem;
+  flex: 3;
+  cursor: pointer;
+}
+
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 40rem) {
+  .header {
+    width: 100%;
+    flex: auto;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .hamburger {
+    display: inline-block;
+    border: none;
+    margin-left: 10px;
+    width: 50px;
+    padding: 5px;
+    height: 60px;
+    background-color: transparent;
+  }
+
+  .hamburger span {
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    display: inline-block;
+  }
+}

@@ -7,15 +7,17 @@ import Button from '../Button';
 const ErrorModal = (props) => {
   return (
     <Modal
-      header="Are you Sure?"
+      header={props.onlyBack ? 'OOPSIE...😔' : 'Are you Sure?'}
       footer={
         <Fragment>
           <Button onClick={props.onClose} inverse>
             Back
           </Button>
-          <Button onClick={props.onConfirm} danger>
-            Confirm
-          </Button>
+          {props.onConfirm && (
+            <Button onClick={props.onConfirm} danger>
+              {props.isLoading ? 'Loading...' : 'Confirm'}
+            </Button>
+          )}
         </Fragment>
       }
       onClose={props.onClose}

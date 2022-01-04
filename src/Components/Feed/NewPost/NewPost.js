@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect } from 'react';
+import React, { Fragment, useRef, useEffect, useState } from 'react';
 
 import classes from './NewPost.module.css';
 import Modal from '../../UI/Modal/Modal';
@@ -8,12 +8,33 @@ import PermMediaIcon from '@mui/icons-material/PermMedia';
 import RoomIcon from '@mui/icons-material/Room';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ShortTextIcon from '@mui/icons-material/ShortText';
+import useChange from '../../../hooks/useChange';
+import useHttp from '../../../hooks/useHttp';
+import ErrorModal from '../../UI/ErrorModal/ErrorModal';
 
 const NewPost = (props) => {
-  const [captionInputValue, setCaptionInputValue] = useState(props.caption);
-  const [imageInputValue, setImageInputValue] = useState('');
-  const [locationInputValue, setLocationInputValue] = useState('');
-  const [feelingInputValue, setFeelingInputValue] = useState('');
+  const {
+    value: captionInputValue,
+    valueChangeHandler: captionChangeHandler,
+    setValue: setCaptionInputValue,
+  } = useChange(props.caption);
+  const {
+    value: locationInputValue,
+    valueChangeHandler: locationChangeHandler,
+    setValue: setLocationInputValue,
+  } = useChange();
+  const {
+    value: feelingInputValue,
+    valueChangeHandler: feelingChangeHandler,
+    setValue: setFeelingInputValue,
+  } = useChange();
+
+  const {
+    isLoading,
+    error,
+    sendRequest: sendNewPostRequest,
+    clearError,
+  } = useHttp();
 
   const { photoIsClick, locationIsClick, feelingIsClick, shareIsClick } = props;
 
@@ -45,7 +66,7 @@ const NewPost = (props) => {
 
   useEffect(() => {
     if (photoIsClick) {
-      return imageRef.current.focus();
+      return imageRef.current.click();
     }
 
     if (locationIsClick) {
@@ -56,28 +77,35 @@ const NewPost = (props) => {
       return feelingRef.current.focus();
     }
 
-    if (shareIsClick) {
+    if (shareIsClick && captionRef) {
       return captionRef.current.focus();
     }
-  }, [photoIsClick, locationIsClick, feelingIsClick, shareIsClick]);
+  }, [photoIsClick, locationIsClick, feelingIsClick, shareIsClick, captionRef]);
 
-  const captionChangeHandler = (e) => {
-    setCaptionInputValue(e.target.value);
-  };
+  const [previewUrl, setPreviewUrl] = useState();
+  const [file, setFile] = useState();
 
-  const locationChangeHandler = (e) => {
-    setLocationInputValue(e.target.value);
-  };
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
 
-  const feelingChangeHandler = (e) => {
-    setFeelingInputValue(e.target.value);
-  };
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
+    fileReader.readAsDataURL(file);
+  }, [file]);
 
   const imageChangeHandler = (e) => {
-    setImageInputValue(e.target.value);
+    let pickedFile;
+    if (e.target.files || e.target.files.length === 1) {
+      pickedFile = e.target.files[0];
+      setFile(pickedFile);
+    }
   };
 
-  const submitPostDataHandler = (e) => {
+  const submitPostDataHandler = async (e) => {
     e.preventDefault();
 
     if (
@@ -89,175 +117,204 @@ const NewPost = (props) => {
       return console.log("You can't create post without attaching anything");
     }
 
-    props.onAddPost({
-      id: Math.random().toString(),
-      username: 'Admin',
-      userPic:
-        'https://animesher.com/orig/1/117/1178/11781/animesher.com_shonen-hinata-shouyou-manga-1178122.jpg',
-      caption: captionInputValue,
-      location: locationInputValue,
-      image: imageInputValue,
-      feeling: feelingInputValue,
-      time: `${new Date().getMinutes()} min ago`,
-      likesCount: 0,
-      commentCount: 0,
-    });
+    let data;
+    try {
+      const postFormData = new FormData();
+
+      postFormData.append('caption', captionInputValue);
+      postFormData.append('location', locationInputValue);
+      postFormData.append('image', file);
+      postFormData.append('feeling', feelingInputValue);
+      postFormData.append('userId', props.id);
+
+      data = await sendNewPostRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/posts/`,
+        'POST',
+        postFormData,
+        { Authorization: `Bearer ${props.token}` }
+      );
+    } catch (err) {}
+
+    if (!data) {
+      return;
+    }
 
     setCaptionInputValue('');
-    setImageInputValue('');
-    setLocationInputValue('');
     setFeelingInputValue('');
+    setFile();
+    setLocationInputValue('');
+
+    props.onAddPost();
+    props.closeModal();
   };
   return (
-    <Modal
-      header="Create Post"
-      footer={
-        <Fragment>
-          <Button onClick={props.onClose} danger>
-            Close
-          </Button>
-          <Button type="submit" inverse>
-            Create
-          </Button>
-        </Fragment>
-      }
-      onClose={props.onClose}
-      onSubmit={submitPostDataHandler}
-    >
-      <div className={classes['form-items__container']}>
-        {captionIsClicked && (
-          <div className={classes['form-items__input-container']}>
-            <label htmlFor="caption">Caption</label>
-            <textarea
-              rows="3"
-              placeholder="Write a Caption Text"
-              onChange={captionChangeHandler}
-              value={captionInputValue}
-              ref={captionRef}
-            />
+    <>
+      {error && (
+        <ErrorModal onClose={clearError} text={error} onlyBack overlay />
+      )}
+      <Modal
+        header="Create Post"
+        footer={
+          <Fragment>
+            <Button onClick={props.onClose} danger>
+              Close
+            </Button>
+            <Button type="submit" inverse>
+              {isLoading ? 'Creating....' : 'Create'}
+            </Button>
+          </Fragment>
+        }
+        onClose={props.onClose}
+        onSubmit={submitPostDataHandler}
+      >
+        <div className={classes['form-items__container']}>
+          {captionIsClicked && (
+            <div className={classes['form-items__input-container']}>
+              <label htmlFor="caption">Caption</label>
+              <textarea
+                rows="3"
+                placeholder="Write a Caption Text"
+                onChange={captionChangeHandler}
+                value={captionInputValue}
+                ref={captionRef}
+              />
+              <button
+                onClick={captionCloseButton.bind(
+                  null,
+                  setCaptionInputValue,
+                  ''
+                )}
+                className={classes['close-btn']}
+              >
+                X
+              </button>
+            </div>
+          )}
+          {photoIsClicked && (
+            <div className={classes['form-items__input-container']}>
+              <label htmlFor="image">Image</label>
+              <input
+                type="file"
+                style={{ display: 'none' }}
+                accept=".jpg,.jpeg,.png"
+                placeholder="Pick an Image"
+                ref={imageRef}
+                onChange={imageChangeHandler}
+              />
+              <div className={classes['image-upload__preview']}>
+                {previewUrl && <img src={previewUrl} alt="preveiw" />}
+                {!previewUrl && <p>Please Pick an Image</p>}
+              </div>
+              <button
+                onClick={photoCloseButton.bind(null, setPreviewUrl, '')}
+                className={classes['close-btn']}
+              >
+                X
+              </button>
+            </div>
+          )}
+          {locationIsClicked && (
+            <div className={classes['form-items__input-container']}>
+              <label htmlFor="location">Location</label>
+              <input
+                type="text"
+                placeholder="Write your Location"
+                ref={locationRef}
+                onChange={locationChangeHandler}
+                value={locationInputValue}
+              />
+              <button
+                onClick={locationCloseButton.bind(
+                  null,
+                  setLocationInputValue,
+                  ''
+                )}
+                className={classes['close-btn']}
+              >
+                X
+              </button>
+            </div>
+          )}
+          {feelingIsClicked && (
+            <div className={classes['form-items__input-container']}>
+              <label htmlFor="feeling">Feeling</label>
+              <select
+                title="feelings"
+                ref={feelingRef}
+                onChange={feelingChangeHandler}
+                value={feelingInputValue}
+              >
+                <option defaultValue>--Select an Option--</option>
+                <option>😊 Happy</option>
+                <option>🙁 Sad</option>
+                <option>🔥 Lit</option>
+                <option>😨 Scared</option>
+                <option>😷 Unwell</option>
+                <option>😍 In Love</option>
+                <option>😡 Angry</option>
+                <option>😄 Excited</option>
+                <option>🙏 Thankful</option>
+                <option>🤪 Crazy</option>
+                <option>😇 Blessed</option>
+                <option>😬 Awkward</option>
+              </select>
+              <button
+                onClick={feelingCloseButton.bind(
+                  null,
+                  setFeelingInputValue,
+                  ''
+                )}
+                className={classes['close-btn']}
+              >
+                X
+              </button>
+            </div>
+          )}
+          <div className={classes.actions}>
             <button
-              onClick={captionCloseButton.bind(null, setCaptionInputValue, '')}
-              className={classes['close-btn']}
+              type="button"
+              className={classes['share-actions__action']}
+              onClick={openNewPostCaptionBtnHandler.bind(null, () => {
+                captionRef.current.focus();
+              })}
             >
-              X
+              <ShortTextIcon style={{ color: 'rgb(110,55,27)' }} />
+              <span style={{ color: 'rgb(110,55,27)' }}>Caption</span>
+            </button>
+            <button
+              type="button"
+              className={classes['share-actions__action']}
+              onClick={openNewPostPhotoBtnHandler.bind(null, () => {
+                imageRef.current.click();
+              })}
+            >
+              <PermMediaIcon style={{ color: 'green' }} />
+              <span style={{ color: 'green' }}>Photo</span>
+            </button>
+            <button
+              type="button"
+              className={classes['share-actions__action']}
+              onClick={openNewPostLocationBtnHandler.bind(null, () => {
+                locationRef.current.focus();
+              })}
+            >
+              <RoomIcon />
+              <span>Location</span>
+            </button>
+            <button
+              type="button"
+              className={classes['share-actions__action']}
+              onClick={openNewPostFeelingBtnHandler.bind(null, () => {
+                feelingRef.current.focus();
+              })}
+            >
+              <EmojiEmotionsIcon style={{ color: 'darkgoldenrod' }} />
+              <span style={{ color: 'darkgoldenrod' }}>Feeling</span>
             </button>
           </div>
-        )}
-        {photoIsClicked && (
-          <div className={classes['form-items__input-container']}>
-            <label htmlFor="image">Image</label>
-            <input
-              type="text"
-              placeholder="Pick an Image"
-              ref={imageRef}
-              onChange={imageChangeHandler}
-              value={imageInputValue}
-            />
-            <button
-              onClick={photoCloseButton.bind(null, setImageInputValue, '')}
-              className={classes['close-btn']}
-            >
-              X
-            </button>
-          </div>
-        )}
-        {locationIsClicked && (
-          <div className={classes['form-items__input-container']}>
-            <label htmlFor="location">Location</label>
-            <input
-              type="text"
-              placeholder="Write your Location"
-              ref={locationRef}
-              onChange={locationChangeHandler}
-              value={locationInputValue}
-            />
-            <button
-              onClick={locationCloseButton.bind(
-                null,
-                setLocationInputValue,
-                ''
-              )}
-              className={classes['close-btn']}
-            >
-              X
-            </button>
-          </div>
-        )}
-        {feelingIsClicked && (
-          <div className={classes['form-items__input-container']}>
-            <label htmlFor="feeling">Feeling</label>
-            <select
-              title="feelings"
-              ref={feelingRef}
-              onChange={feelingChangeHandler}
-              value={feelingInputValue}
-            >
-              <option defaultValue>--Select an Option--</option>
-              <option>😊 Happy</option>
-              <option>🙁 Sad</option>
-              <option>🔥 Lit</option>
-              <option>😨 Scared</option>
-              <option>😷 Unwell</option>
-              <option>😍 In Love</option>
-              <option>😡 Angry</option>
-              <option>😄 Excited</option>
-              <option>🙏 Thankful</option>
-              <option>🤪 Crazy</option>
-              <option>😇 Blessed</option>
-              <option>😬 Awkward</option>
-            </select>
-            <button
-              onClick={feelingCloseButton.bind(null, setFeelingInputValue, '')}
-              className={classes['close-btn']}
-            >
-              X
-            </button>
-          </div>
-        )}
-        <div className={classes.actions}>
-          <button
-            type="button"
-            className={classes['share-actions__action']}
-            onClick={openNewPostCaptionBtnHandler.bind(null, () => {
-              captionRef.current.focus();
-            })}
-          >
-            <ShortTextIcon style={{ color: 'rgb(110,55,27)' }} />
-            <span style={{ color: 'rgb(110,55,27)' }}>Caption</span>
-          </button>
-          <button
-            type="button"
-            className={classes['share-actions__action']}
-            onClick={openNewPostPhotoBtnHandler.bind(null, () => {
-              imageRef.current.focus();
-            })}
-          >
-            <PermMediaIcon style={{ color: 'green' }} />
-            <span style={{ color: 'green' }}>Photo or Video</span>
-          </button>
-          <button
-            type="button"
-            className={classes['share-actions__action']}
-            onClick={openNewPostLocationBtnHandler.bind(null, () => {
-              locationRef.current.focus();
-            })}
-          >
-            <RoomIcon />
-            <span>Location</span>
-          </button>
-          <button
-            type="button"
-            className={classes['share-actions__action']}
-            onClick={openNewPostFeelingBtnHandler.bind(null, () => {
-              feelingRef.current.focus();
-            })}
-          >
-            <EmojiEmotionsIcon style={{ color: 'darkgoldenrod' }} />
-            <span style={{ color: 'darkgoldenrod' }}>Feeling</span>
-          </button>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+    </>
   );
 };
 

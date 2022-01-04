@@ -1,0 +1,15 @@
+.message-list__items {
+  list-style: none;
+  padding-left: 10px;
+  height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+.message-error__text {
+  color: grey;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}

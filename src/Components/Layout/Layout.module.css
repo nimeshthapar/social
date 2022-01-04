@@ -6,3 +6,10 @@
   height: calc(100vh - 70px);
   flex: 6;
 }
+
+@media (max-width: 40rem) {
+  .centerbox {
+    flex: none;
+    width: 100vw;
+  }
+}

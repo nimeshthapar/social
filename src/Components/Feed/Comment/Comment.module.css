@@ -1,0 +1,13 @@
+.comment-actions {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.comment-actions svg {
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.comment-actions button {
+  font-size: 1rem;
+}
