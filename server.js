@@ -24,7 +24,9 @@ app.use(
   express.static(path.join(__dirname, 'images', 'uploads'))
 );
 
-app.use(setHeaders);
+app.use(express.static(path.join('public')));
+
+// app.use(setHeaders);
 
 app.use('/api/users', userRoutes);
 
@@ -33,8 +35,12 @@ app.use('/api/posts', postRoutes);
 app.use('/api/messages', messageRoutes);
 
 app.use((req, res, next) => {
-  throw new HttpError("Couldn't find this route.", 404);
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
+
+// app.use((req, res, next) => {
+//   throw new HttpError("Couldn't find this route.", 404);
+// });
 
 app.use((err, req, res, next) => {
   if (req.file) {
